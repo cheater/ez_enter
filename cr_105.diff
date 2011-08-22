@@ -1,0 +1,85 @@
+diff -Nur rules.orig/evdev rules/evdev
+--- rules.orig/evdev	2011-08-22 10:28:35.993868985 +0200
++++ rules/evdev	2011-08-22 11:53:18.625868725 +0200
+@@ -1024,6 +1024,7 @@
+   compose:caps		=	+compose(caps)
+   compose:102		=	+compose(102)
+   srvrkeys:none		=	+srvr_ctrl(no_srvr_keys)
++  cr_pc105:1    	=	+cr_pc105(1)
+   eurosign:e		=	+eurosign(e)
+   eurosign:2		=	+eurosign(2)
+   eurosign:4		=	+eurosign(4)
+diff -Nur rules.orig/evdev.xml rules/evdev.xml
+--- rules.orig/evdev.xml	2011-08-22 10:28:35.993868985 +0200
++++ rules/evdev.xml	2011-08-22 10:46:19.273867834 +0200
+@@ -1243,6 +1243,12 @@
+         </variant>
+         <variant>
+           <configItem>
++            <name>cr_105</name>
++            <description>With Enter in the 105th key</description>
++          </configItem>
++        </variant>
++        <variant>
++          <configItem>
+             <name>euro</name>
+             <description>With EuroSign on 5</description>
+           </configItem>
+@@ -5187,6 +5193,19 @@
+         </configItem>
+       </option>
+     </group>
++    <group allowMultipleSelection="false">
++      
++      <configItem>
++        <name>cr_pc105</name>
++        <description>Turning the 105th key into Enter</description>
++      </configItem>
++      <option>
++        <configItem>
++          <name>cr_pc105:1</name>
++          <description>LSGT</description>
++        </configItem>
++      </option>
++    </group>
+     <group allowMultipleSelection="true">
+       
+       <configItem>
+@@ -5370,4 +5389,4 @@
+       </option>
+     </group>
+   </optionList>
+-</xkbConfigRegistry>
+\ No newline at end of file
++</xkbConfigRegistry>
+diff -Nur symbols.orig/cr_pc105 symbols/cr_pc105
+--- symbols.orig/cr_pc105	1970-01-01 01:00:00.000000000 +0100
++++ symbols/cr_pc105	2011-08-22 11:10:28.218771769 +0200
+@@ -0,0 +1,8 @@
++// Copyright (c) cheater00@gmail.com
++// All rights reserved.
++
++partial
++xkb_symbols "1" {
++    //Put enter on the 105th key which is otherwise useless.
++    key <LSGT> {	[ Return, Return, Return, Return ]	};
++};
+diff -Nur symbols.orig/us symbols/us
+--- symbols.orig/us	2011-08-22 09:34:30.165868628 +0200
++++ symbols/us	2011-08-22 10:32:55.948218887 +0200
+@@ -66,6 +66,15 @@
+ };
+ 
+ partial alphanumeric_keys
++xkb_symbols "cr_105" {
++    name[Group1]= "USA - With Enter on the 105th key";
++    
++    include "us(basic)"
++
++    include "cr_pc105(1)"
++};
++
++partial alphanumeric_keys
+ xkb_symbols "euro" {
+ 
+     name[Group1]= "USA - With EuroSign on 5";
